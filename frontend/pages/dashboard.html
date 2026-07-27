@@ -9,56 +9,146 @@
 <body>
   <script src="../js/app.js"></script>
   <script>
-    const total = LEAVE_HISTORY.length;
-    const pending = LEAVE_HISTORY.filter(l => l.status === 'Pending').length;
-    const approved = LEAVE_HISTORY.filter(l => l.status === 'Approved').length;
-    const rejected = LEAVE_HISTORY.filter(l => l.status === 'Rejected').length;
+async function loadDashboard() {
 
-    const content = `
-      <div class="stats-grid">
-        <div class="stat-card"><div class="label">Total Leaves</div><div class="value">${total}</div></div>
-        <div class="stat-card warn"><div class="label">Pending</div><div class="value">${pending}</div></div>
-        <div class="stat-card success"><div class="label">Approved</div><div class="value">${approved}</div></div>
-        <div class="stat-card danger"><div class="label">Rejected</div><div class="value">${rejected}</div></div>
-      </div>
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
 
-      <div class="panel">
-        <h2>Quick Actions</h2>
-        <div class="quick-actions">
-          <a class="quick-action" href="apply-leave.html">
-            <span class="qi">＋</span><div class="qt">Apply Leave</div>
-          </a>
-          <a class="quick-action" href="leave-history.html">
-            <span class="qi">☰</span><div class="qt">Leave History</div>
-          </a>
-          <a class="quick-action" href="profile.html">
-            <span class="qi">☺</span><div class="qt">Profile</div>
-          </a>
-        </div>
-      </div>
+    // If not logged in
+    if (!token || !user) {
+        window.location.href = "../index.html";
+        return;
+    }
 
-      <div class="panel">
-        <h2>Recent Leave Requests</h2>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr><th>Leave Type</th><th>Dates</th><th>Days</th><th>Status</th></tr>
-            </thead>
-            <tbody>
-              ${LEAVE_HISTORY.slice(0,4).map(l => `
-                <tr>
-                  <td>${l.type}</td>
-                  <td>${l.start} → ${l.end}</td>
-                  <td>${l.days}</td>
-                  <td>${badge(l.status)}</td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    `;
-    mountLayout({ active: 'dashboard', title: 'Dashboard', role: 'employee', content });
-  </script>
+    try {
+
+        const response = await fetch(`${API_BASE}/leaves`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        const leaves = await response.json();
+
+        if (!response.ok) {
+            alert(leaves.message);
+            return;
+        }
+
+        const total = leaves.length;
+        const pending = leaves.filter(l => l.status === "Pending").length;
+        const approved = leaves.filter(l => l.status === "Approved").length;
+        const rejected = leaves.filter(l => l.status === "Rejected").length;
+
+        const content = `
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="label">Total Leaves</div>
+                    <div class="value">${total}</div>
+                </div>
+
+                <div class="stat-card warn">
+                    <div class="label">Pending</div>
+                    <div class="value">${pending}</div>
+                </div>
+
+                <div class="stat-card success">
+                    <div class="label">Approved</div>
+                    <div class="value">${approved}</div>
+                </div>
+
+                <div class="stat-card danger">
+                    <div class="label">Rejected</div>
+                    <div class="value">${rejected}</div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>Quick Actions</h2>
+
+                <div class="quick-actions">
+
+                    <a class="quick-action" href="apply-leave.html">
+                        <span class="qi">＋</span>
+                        <div class="qt">Apply Leave</div>
+                    </a>
+
+                    <a class="quick-action" href="leave-history.html">
+                        <span class="qi">☰</span>
+                        <div class="qt">Leave History</div>
+                    </a>
+
+                    <a class="quick-action" href="profile.html">
+                        <span class="qi">☺</span>
+                        <div class="qt">Profile</div>
+                    </a>
+
+                </div>
+            </div>
+
+            <div class="panel">
+
+                <h2>Recent Leave Requests</h2>
+
+                <div class="table-wrap">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Leave Type</th>
+                                <th>Dates</th>
+                                <th>Days</th>
+                                <th>Status</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            ${leaves.map(leave => `
+
+                                <tr>
+
+                                    <td>${leave.leaveType}</td>
+
+                                    <td>${leave.startDate} → ${leave.endDate}</td>
+
+                                    <td>${leave.numberOfDays}</td>
+
+                                    <td>${badge(leave.status)}</td>
+
+                                </tr>
+
+                            `).join("")}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+        `;
+
+        mountLayout({
+            active: "dashboard",
+            title: `Welcome ${user.fullName}`,
+            role: "employee",
+            content
+        });
+
+    } catch (error) {
+
+        console.error(error);
+        alert("Unable to load dashboard.");
+
+    }
+
+}
+
+loadDashboard();
+</script>
 </body>
 </html>

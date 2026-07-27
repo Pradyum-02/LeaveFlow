@@ -9,8 +9,10 @@ const createLeave = async (req, res) => {
 
     try {
 
-        const {
+const {
     leaveType,
+    startDate,
+    endDate,
     reason,
     days
 } = req.body;
@@ -24,8 +26,10 @@ if (!user) {
 }
 
         // Validation
-        if (
+if (
     !leaveType ||
+    !startDate ||
+    !endDate ||
     !reason ||
     !days
 ) {
@@ -35,11 +39,13 @@ if (!user) {
         }
 
         // Save Leave
-        const leave = await Leave.create({
+const leave = await Leave.create({
     employeeName: user.fullName,
     employeeId: user.employeeId,
     department: user.department,
     leaveType,
+    startDate,
+    endDate,
     reason,
     days
 });
