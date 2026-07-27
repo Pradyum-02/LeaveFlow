@@ -251,24 +251,7 @@ LeaveFlow/
 - Responsive Tables
 - Modular Structure
 
----
-# 📸 Application Preview
 
-> Screenshots will be added after the final UI is completed.
-
-<div align="center">
-
-| Login | Employee Dashboard |
-|-------|--------------------|
-| 📷 Coming Soon | 📷 Coming Soon |
-
-| Apply Leave | Admin Dashboard |
-|-------------|-----------------|
-| 📷 Coming Soon | 📷 Coming Soon |
-
-</div>
-
----
 
 # ⚡ REST API
 
