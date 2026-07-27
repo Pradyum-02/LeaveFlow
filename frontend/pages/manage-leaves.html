@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LeaveFlow - Manage Leave Requests</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+  <script src="../js/app.js"></script>
+  <script>
+    function renderTable() {
+      return `
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Employee</th>
+                <th>Emp ID</th>
+                <th>Department</th>
+                <th>Leave Type</th>
+                <th>Dates</th>
+                <th>Days</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${ADMIN_REQUESTS.map(r => `
+                <tr>
+                  <td>${r.name}</td>
+                  <td>${r.empId}</td>
+                  <td>${r.dept}</td>
+                  <td>${r.type}</td>
+                  <td>${r.start} → ${r.end}</td>
+                  <td>${r.days}</td>
+                  <td style="max-width:200px;">${r.reason}</td>
+                  <td>${badge(r.status)}</td>
+                  <td>
+                    ${r.status === 'Pending' ? `
+                      <div class="actions-row">
+                        <button class="btn btn-success btn-sm" onclick="updateReq(${r.reqId},'Approved')">Approve</button>
+                        <button class="btn btn-danger btn-sm" onclick="updateReq(${r.reqId},'Rejected')">Reject</button>
+                      </div>
+                    ` : `<span style="color:var(--text-muted);font-size:12px;">—</span>`}
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function updateReq(id, status) {
+      const req = ADMIN_REQUESTS.find(r => r.reqId === id);
+      if (req) req.status = status;
+      // TODO: fetch(`${API_BASE}/leaves/${id}`, { method:'PATCH', body: JSON.stringify({ status }) })
+      document.getElementById('mgr-panel').innerHTML = `<h2>All Leave Requests</h2>${renderTable()}`;
+    }
+
+    const content = `
+      <div class="panel" id="mgr-panel">
+        <h2>All Leave Requests</h2>
+        ${renderTable()}
+      </div>
+    `;
+    mountLayout({ active: 'manage', title: 'Manage Leave Requests', role: 'admin', content });
+  </script>
+</body>
+</html>

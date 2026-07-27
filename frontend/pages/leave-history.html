@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LeaveFlow - Leave History</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+  <script src="../js/app.js"></script>
+  <script>
+    const content = `
+      <div class="panel">
+        <h2>My Leave History</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Leave Type</th>
+                <th>Dates</th>
+                <th>Days</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${LEAVE_HISTORY.map(l => `
+                <tr>
+                  <td>${l.type}</td>
+                  <td>${l.start} → ${l.end}</td>
+                  <td>${l.days}</td>
+                  <td>${badge(l.status)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+    mountLayout({ active: 'history', title: 'Leave History', role: 'employee', content });
+  </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LeaveFlow - Profile</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+  <script src="../js/app.js"></script>
+  <script>
+    const u = CURRENT_USER;
+    const content = `
+      <div class="panel">
+        <div class="profile-card">
+          <div class="avatar">${initials(u.name)}</div>
+          <div class="profile-info">
+            <h3>${u.name}</h3>
+            <p>${u.department} · ${u.employeeId}</p>
+          </div>
+        </div>
+        <div class="info-grid">
+          <div class="info-item"><div class="k">Full Name</div><div class="v">${u.name}</div></div>
+          <div class="info-item"><div class="k">Employee ID</div><div class="v">${u.employeeId}</div></div>
+          <div class="info-item"><div class="k">Department</div><div class="v">${u.department}</div></div>
+          <div class="info-item"><div class="k">Email</div><div class="v">${u.email}</div></div>
+        </div>
+      </div>
+    `;
+    mountLayout({ active: 'profile', title: 'My Profile', role: 'employee', content });
+  </script>
+</body>
+</html>

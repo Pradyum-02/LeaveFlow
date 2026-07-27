@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LeaveFlow - Employee Dashboard</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+  <script src="../js/app.js"></script>
+  <script>
+    const total = LEAVE_HISTORY.length;
+    const pending = LEAVE_HISTORY.filter(l => l.status === 'Pending').length;
+    const approved = LEAVE_HISTORY.filter(l => l.status === 'Approved').length;
+    const rejected = LEAVE_HISTORY.filter(l => l.status === 'Rejected').length;
+
+    const content = `
+      <div class="stats-grid">
+        <div class="stat-card"><div class="label">Total Leaves</div><div class="value">${total}</div></div>
+        <div class="stat-card warn"><div class="label">Pending</div><div class="value">${pending}</div></div>
+        <div class="stat-card success"><div class="label">Approved</div><div class="value">${approved}</div></div>
+        <div class="stat-card danger"><div class="label">Rejected</div><div class="value">${rejected}</div></div>
+      </div>
+
+      <div class="panel">
+        <h2>Quick Actions</h2>
+        <div class="quick-actions">
+          <a class="quick-action" href="apply-leave.html">
+            <span class="qi">＋</span><div class="qt">Apply Leave</div>
+          </a>
+          <a class="quick-action" href="leave-history.html">
+            <span class="qi">☰</span><div class="qt">Leave History</div>
+          </a>
+          <a class="quick-action" href="profile.html">
+            <span class="qi">☺</span><div class="qt">Profile</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Recent Leave Requests</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Leave Type</th><th>Dates</th><th>Days</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              ${LEAVE_HISTORY.slice(0,4).map(l => `
+                <tr>
+                  <td>${l.type}</td>
+                  <td>${l.start} → ${l.end}</td>
+                  <td>${l.days}</td>
+                  <td>${badge(l.status)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+    mountLayout({ active: 'dashboard', title: 'Dashboard', role: 'employee', content });
+  </script>
+</body>
+</html>

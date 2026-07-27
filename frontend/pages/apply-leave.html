@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LeaveFlow - Apply Leave</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+  <script src="../js/app.js"></script>
+  <script>
+    const content = `
+      <div class="panel" style="max-width:640px;">
+        <h2>Apply for Leave</h2>
+        <form onsubmit="submitLeave(event)">
+          <div class="form-group">
+            <label>Leave Type</label>
+            <select required>
+              <option value="">Select leave type</option>
+              <option>Sick Leave</option>
+              <option>Casual Leave</option>
+              <option>Earned Leave</option>
+              <option>Maternity Leave</option>
+              <option>Paternity Leave</option>
+            </select>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div class="form-group">
+              <label>Start Date</label>
+              <input type="date" required />
+            </div>
+            <div class="form-group">
+              <label>End Date</label>
+              <input type="date" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Reason</label>
+            <textarea placeholder="Briefly describe the reason for leave..." required></textarea>
+          </div>
+          <div class="actions-row">
+            <button type="submit" class="btn btn-primary">Submit Request</button>
+            <a href="dashboard.html" class="btn btn-secondary">Cancel</a>
+          </div>
+        </form>
+      </div>
+    `;
+    mountLayout({ active: 'apply', title: 'Apply Leave', role: 'employee', content });
+
+    function submitLeave(e) {
+      e.preventDefault();
+      // TODO: fetch(`${API_BASE}/leaves`, { method: 'POST', body: JSON.stringify({...}) })
+      alert('Leave request submitted successfully!');
+      window.location.href = 'leave-history.html';
+    }
+  </script>
+</body>
+</html>
