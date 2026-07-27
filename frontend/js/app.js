@@ -1,7 +1,7 @@
 // LeaveFlow - Shared JS (placeholder data + UI helpers)
 // Ready to be swapped with fetch() calls to Node.js/Express/MongoDB backend.
 
-const API_BASE = "https://leaveflow-backend-nbuz.onrender.com/";
+const API_BASE = "https://leaveflow-backend-nbuz.onrender.com";
 
 // ---------- Placeholder Data ----------
 const CURRENT_USER = {
