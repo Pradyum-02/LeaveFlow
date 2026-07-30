@@ -15,7 +15,7 @@
         <form onsubmit="submitLeave(event)">
           <div class="form-group">
             <label>Leave Type</label>
-            <select required>
+            <select id="leaveType" required>
               <option value="">Select leave type</option>
               <option>Sick Leave</option>
               <option>Casual Leave</option>
@@ -27,16 +27,16 @@
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
             <div class="form-group">
               <label>Start Date</label>
-              <input type="date" required />
+              <input type="date" id="startDate" required />
             </div>
             <div class="form-group">
               <label>End Date</label>
-              <input type="date" required />
+              <input type="date" id="endDate" required />
             </div>
           </div>
           <div class="form-group">
             <label>Reason</label>
-            <textarea placeholder="Briefly describe the reason for leave..." required></textarea>
+            <textarea id="reason" placeholder="Briefly describe the reason for leave..." required></textarea>
           </div>
           <div class="actions-row">
             <button type="submit" class="btn btn-primary">Submit Request</button>
@@ -47,12 +47,71 @@
     `;
     mountLayout({ active: 'apply', title: 'Apply Leave', role: 'employee', content });
 
-    function submitLeave(e) {
-      e.preventDefault();
-      // TODO: fetch(`${API_BASE}/leaves`, { method: 'POST', body: JSON.stringify({...}) })
-      alert('Leave request submitted successfully!');
-      window.location.href = 'leave-history.html';
+async function submitLeave(e) {
+
+    e.preventDefault();
+
+    const token = localStorage.getItem("token");
+
+    const leaveType = document.getElementById("leaveType").value;
+    const startDate = document.getElementById("startDate").value;
+    const endDate = document.getElementById("endDate").value;
+    const reason = document.getElementById("reason").value;
+
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    const days =
+        Math.floor((end - start) / (1000 * 60 * 60 * 24)) + 1;
+
+    if (days <= 0) {
+        alert("End Date must be after Start Date.");
+        return;
     }
+
+    try {
+
+        const response = await fetch(`${API_BASE}/leaves`, {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+
+            body: JSON.stringify({
+
+                leaveType,
+                startDate,
+                endDate,
+                reason,
+                days
+
+            })
+
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            alert(data.message);
+            return;
+        }
+
+        alert("Leave request submitted successfully!");
+
+        window.location.href = "leave-history.html";
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Unable to connect to server.");
+
+    }
+
+}
   </script>
 </body>
 </html>

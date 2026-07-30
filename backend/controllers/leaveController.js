@@ -74,7 +74,23 @@ const getAllLeaves = async (req, res) => {
 
     try {
 
-        const leaves = await Leave.find();
+        let leaves;
+
+if (req.user.role === "admin") {
+
+    leaves = await Leave.find().sort({ createdAt: -1 });
+
+} else {
+
+    const user = await User.findById(req.user.id);
+
+    leaves = await Leave.find({
+        employeeId: user.employeeId
+    }).sort({ createdAt: -1 });
+
+}
+
+res.status(200).json(leaves);
 
         res.status(200).json(leaves);
 

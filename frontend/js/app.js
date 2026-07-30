@@ -50,7 +50,12 @@ function initials(name) {
 }
 
 function logout() {
-  window.location.href = '../index.html';
+
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    window.location.href = "../index.html";
+
 }
 
 function toggleSidebar() {
@@ -62,7 +67,7 @@ function toggleSidebar() {
 
 // ---------- Renderers ----------
 function renderTopbar(title) {
-  const u = CURRENT_USER;
+  const u = JSON.parse(localStorage.getItem("user"));
   return `
     <div class="topbar">
       <div style="display:flex;align-items:center;gap:12px;">
@@ -70,9 +75,9 @@ function renderTopbar(title) {
         <h1>${title}</h1>
       </div>
       <div class="user">
-        <div class="avatar">${initials(u.name)}</div>
+        <div class="avatar">${initials(u.fullName)}</div>
         <div class="name-txt">
-          <div style="font-size:13px;font-weight:600;">${u.name}</div>
+          <div style="font-size:13px;font-weight:600;">${u.fullName}</div>
           <div style="font-size:11px;color:var(--text-muted);">${u.employeeId}</div>
         </div>
       </div>
