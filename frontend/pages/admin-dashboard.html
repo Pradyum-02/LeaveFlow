@@ -8,43 +8,184 @@
 </head>
 <body>
   <script src="../js/app.js"></script>
-  <script>
-    const totalEmp = EMPLOYEES.length;
-    const pending = ADMIN_REQUESTS.filter(r => r.status === 'Pending').length;
-    const approved = ADMIN_REQUESTS.filter(r => r.status === 'Approved').length;
-    const rejected = ADMIN_REQUESTS.filter(r => r.status === 'Rejected').length;
+<script>
 
-    const content = `
-      <div class="stats-grid">
-        <div class="stat-card"><div class="label">Total Employees</div><div class="value">${totalEmp}</div></div>
-        <div class="stat-card warn"><div class="label">Pending Leaves</div><div class="value">${pending}</div></div>
-        <div class="stat-card success"><div class="label">Approved Leaves</div><div class="value">${approved}</div></div>
-        <div class="stat-card danger"><div class="label">Rejected Leaves</div><div class="value">${rejected}</div></div>
-      </div>
+async function loadAdminDashboard() {
 
-      <div class="panel">
-        <h2>Recent Leave Requests</h2>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr><th>Employee</th><th>Department</th><th>Type</th><th>Dates</th><th>Status</th></tr>
-            </thead>
-            <tbody>
-              ${ADMIN_REQUESTS.slice(0,5).map(r => `
-                <tr>
-                  <td>${r.name} <div style="color:var(--text-muted);font-size:12px;">${r.empId}</div></td>
-                  <td>${r.dept}</td>
-                  <td>${r.type}</td>
-                  <td>${r.start} → ${r.end}</td>
-                  <td>${badge(r.status)}</td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!token || !user) {
+        window.location.href = "../index.html";
+        return;
+    }
+
+    try {
+
+        const response = await fetch(`${API_BASE}/leaves`, {
+
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+
+        });
+
+        const leaves = await response.json();
+
+        if (!response.ok) {
+            alert(leaves.message);
+            return;
+        }
+
+        const totalLeaves = leaves.length;
+
+        const pending =
+            leaves.filter(l => l.status === "Pending").length;
+
+        const approved =
+            leaves.filter(l => l.status === "Approved").length;
+
+        const rejected =
+            leaves.filter(l => l.status === "Rejected").length;
+
+        const employees =
+            [...new Set(leaves.map(l => l.employeeId))].length;
+
+        const content = `
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <div class="label">Total Employees</div>
+                <div class="value">${employees}</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="label">Total Leaves</div>
+                <div class="value">${totalLeaves}</div>
+            </div>
+
+            <div class="stat-card warn">
+                <div class="label">Pending</div>
+                <div class="value">${pending}</div>
+            </div>
+
+            <div class="stat-card success">
+                <div class="label">Approved</div>
+                <div class="value">${approved}</div>
+            </div>
+
+            <div class="stat-card danger">
+                <div class="label">Rejected</div>
+                <div class="value">${rejected}</div>
+            </div>
+
         </div>
-      </div>
-    `;
-    mountLayout({ active: 'admin-dashboard', title: 'Admin Dashboard', role: 'admin', content });
-  </script>
+
+        <div class="panel">
+
+            <h2>Recent Leave Requests</h2>
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Employee</th>
+                            <th>Department</th>
+                            <th>Leave Type</th>
+                            <th>Dates</th>
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        ${
+
+                        leaves
+                        .slice(0,5)
+                        .map(leave=>`
+
+                        <tr>
+
+                        <td>
+
+                        ${leave.employeeName}
+
+                        <div style="color:var(--text-muted);font-size:12px;">
+                        ${leave.employeeId}
+                        </div>
+
+                        </td>
+
+                        <td>${leave.department}</td>
+
+                        <td>${leave.leaveType}</td>
+
+                        <td>
+
+                        ${new Date(leave.startDate).toLocaleDateString()}
+
+                        →
+
+                        ${new Date(leave.endDate).toLocaleDateString()}
+
+                        </td>
+
+                        <td>
+
+                        ${badge(leave.status)}
+
+                        </td>
+
+                        </tr>
+
+                        `).join("")
+
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        `;
+
+        mountLayout({
+
+            active:"admin-dashboard",
+
+            title:"Admin Dashboard",
+
+            role:"admin",
+
+            content
+
+        });
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        alert("Unable to load admin dashboard.");
+
+    }
+
+}
+
+loadAdminDashboard();
+
+</script>
 </body>
 </html>

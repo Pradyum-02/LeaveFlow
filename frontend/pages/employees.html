@@ -8,40 +8,142 @@
 </head>
 <body>
   <script src="../js/app.js"></script>
-  <script>
-    const content = `
-      <div class="panel">
+<script>
+
+async function loadEmployees(){
+
+    const token = localStorage.getItem("token");
+
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if(!token || !user){
+
+        window.location.href="../index.html";
+
+        return;
+
+    }
+
+    try{
+
+        const response = await fetch(`${API_BASE}/auth/users`, {
+
+            headers:{
+
+                Authorization:`Bearer ${token}`
+
+            }
+
+        });
+
+        const employees = await response.json();
+
+        if(!response.ok){
+
+            alert(employees.message);
+
+            return;
+
+        }
+
+        const content = `
+
+        <div class="panel">
+
         <h2>All Employees</h2>
+
         <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Employee Name</th>
-                <th>Employee ID</th>
-                <th>Department</th>
-                <th>Email</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${EMPLOYEES.map(e => `
-                <tr>
-                  <td>
-                    <div style="display:flex;align-items:center;gap:10px;">
-                      <div class="avatar" style="width:32px;height:32px;font-size:12px;">${initials(e.name)}</div>
-                      ${e.name}
-                    </div>
-                  </td>
-                  <td>${e.id}</td>
-                  <td>${e.department}</td>
-                  <td>${e.email}</td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
+
+        <table>
+
+        <thead>
+
+        <tr>
+
+        <th>Employee Name</th>
+
+        <th>Employee ID</th>
+
+        <th>Department</th>
+
+        <th>Email</th>
+
+        <th>Role</th>
+
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        ${employees.map(emp=>`
+
+        <tr>
+
+        <td>
+
+        <div style="display:flex;align-items:center;gap:10px;">
+
+        <div class="avatar" style="width:32px;height:32px;font-size:12px;">
+
+        ${initials(emp.fullName)}
+
         </div>
-      </div>
-    `;
-    mountLayout({ active: 'employees', title: 'Employees', role: 'admin', content });
-  </script>
+
+        ${emp.fullName}
+
+        </div>
+
+        </td>
+
+        <td>${emp.employeeId}</td>
+
+        <td>${emp.department}</td>
+
+        <td>${emp.email}</td>
+
+        <td>${emp.role}</td>
+
+        </tr>
+
+        `).join("")}
+
+        </tbody>
+
+        </table>
+
+        </div>
+
+        </div>
+
+        `;
+
+        mountLayout({
+
+            active:"employees",
+
+            title:"Employees",
+
+            role:"admin",
+
+            content
+
+        });
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        alert("Unable to load employees.");
+
+    }
+
+}
+
+loadEmployees();
+
+</script>
 </body>
 </html>
