@@ -6,99 +6,89 @@
 
 ### Modern Full Stack Leave Management System
 
-A secure and responsive leave management platform where employees can apply for leave and administrators can efficiently manage, approve, or reject requests through a role-based dashboard.
+A secure, role-based leave management platform where employees can apply for leave and administrators can review, approve, or reject requests through a dedicated dashboard — built on a full MERN-style architecture with JWT authentication and protected routes.
 
 <p>
-
 <a href="https://leave-flow-taupe.vercel.app/">
 <img src="https://img.shields.io/badge/Live%20Application-Visit%20Now-2563eb?style=for-the-badge&logo=vercel&logoColor=white"/>
 </a>
-
 <a href="https://leaveflow-backend-nbuz.onrender.com">
 <img src="https://img.shields.io/badge/Backend%20API-Render-0ea5e9?style=for-the-badge&logo=render&logoColor=white"/>
 </a>
-
 <a href="https://github.com/Pradyum-02/LeaveFlow">
 <img src="https://img.shields.io/github/stars/Pradyum-02/LeaveFlow?style=for-the-badge"/>
 </a>
-
 <a href="https://github.com/Pradyum-02/LeaveFlow">
 <img src="https://img.shields.io/github/forks/Pradyum-02/LeaveFlow?style=for-the-badge"/>
 </a>
-
+<a href="https://github.com/Pradyum-02/LeaveFlow/blob/main/LICENSE">
+<img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge"/>
+</a>
 </p>
 
 </div>
 
 ---
 
-# 📖 Overview
+## 📖 Overview
 
-LeaveFlow is a production-style Full Stack Leave Management System built using the MERN backend stack.
+**LeaveFlow** is a production-style Full Stack Leave Management System built to model a real-world HR workflow. Employees securely submit leave requests, while administrators get complete visibility and control through an intuitive dashboard for reviewing, approving, and rejecting requests.
 
-The application allows employees to securely submit leave requests while providing administrators with complete control over reviewing, approving, and rejecting requests through an intuitive dashboard.
-
-The project demonstrates authentication, authorization, REST APIs, MVC architecture, MongoDB integration, protected routes, deployment, and responsive UI design.
+The project was built to demonstrate practical, end-to-end engineering: authentication & authorization, RESTful API design, MVC architecture, MongoDB integration, protected routing, and a fully deployed, responsive frontend.
 
 ---
 
-# 🚀 Live Application
+## 🚀 Live Application
 
-### 🌐 Frontend
+<table>
+<tr>
+<td><strong>🌐 Frontend</strong></td>
+<td><a href="https://leave-flow-taupe.vercel.app/">leave-flow-taupe.vercel.app</a></td>
+</tr>
+<tr>
+<td><strong>⚙️ Backend API</strong></td>
+<td><a href="https://leaveflow-backend-nbuz.onrender.com">leaveflow-backend-nbuz.onrender.com</a></td>
+</tr>
+</table>
 
-https://leave-flow-taupe.vercel.app/
-
----
-
-### ⚙ Backend API
-
-https://leaveflow-backend-nbuz.onrender.com
-
-> This backend can be directly tested using **Postman**, Thunder Client, or any REST API testing tool.
-
----
-
-# ✨ Features
-
-## 👨‍💼 Employee Module
-
-- Secure Registration
-- Secure Login
-- JWT Authentication
-- View Dashboard
-- Apply Leave
-- Leave History
-- Profile Page
-- Logout
-- Responsive UI
+> 💡 The backend API can be tested directly using **Postman**, **Thunder Client**, or any REST client.
 
 ---
 
-## 👨‍💻 Admin Module
+## ✨ Features
 
-- Admin Login
-- Dashboard Analytics
-- View All Employees
-- View Leave Requests
-- Approve Requests
-- Reject Requests
-- Status Updates
-- Protected Admin Routes
+### 👨‍💼 Employee Module
+- Secure registration & login (JWT-based)
+- Personal dashboard with leave overview
+- Apply for leave
+- View leave history & status
+- Profile management
+- Fully responsive UI
 
----
-
-# 🔐 Security Features
-
-- JWT Authentication
-- Password Hashing (bcrypt)
-- Protected Routes
-- Role-Based Authorization
-- Input Validation
-- Secure API Communication
+### 👨‍💻 Admin Module
+- Admin login with elevated permissions
+- Dashboard analytics
+- View all employees
+- View & manage all leave requests
+- Approve / reject with status updates
+- Protected admin-only routes
 
 ---
 
-# 🛠 Tech Stack
+## 🔐 Security
+
+| Measure | Implementation |
+|---|---|
+| Authentication | JSON Web Tokens (JWT) |
+| Password Storage | Hashed with **bcrypt** |
+| Authorization | Role-based access control |
+| Route Protection | Middleware-guarded protected routes |
+| Input Validation | Server-side request validation |
+| API Communication | Secured REST endpoints |
+
+---
+
+## 🛠️ Tech Stack
 
 <div align="center">
 
@@ -106,182 +96,167 @@ https://leaveflow-backend-nbuz.onrender.com
 
 </div>
 
+<div align="center">
+
+| Layer | Technologies |
+|---|---|
+| **Frontend** | HTML5, CSS3, JavaScript |
+| **Backend** | Node.js, Express.js |
+| **Database** | MongoDB (Atlas) |
+| **Auth** | JWT, bcrypt |
+| **Tooling** | Git, GitHub, Postman, VS Code |
+| **Deployment** | Vercel (Frontend), Render (Backend) |
+
+</div>
+
 ---
 
-# 🧱 Project Architecture
+## 🧱 Project Architecture
 
 ```
-LeaveFlow
+LeaveFlow/
 │
-├── backend
-│   ├── config
-│   ├── controllers
-│   ├── middleware
-│   ├── models
-│   ├── routes
-│   ├── server.js
+├── backend/
+│   ├── config/           # Database & environment configuration
+│   ├── controllers/      # Request handling & business logic
+│   ├── middleware/        # Auth guards, error handling
+│   ├── models/            # Mongoose schemas
+│   ├── routes/            # API route definitions
+│   ├── server.js           # Entry point
 │   └── package.json
 │
-├── frontend
-│   ├── css
-│   ├── js
-│   ├── pages
-│   ├── index.html
-│   └── assets
+├── frontend/
+│   ├── css/                # Stylesheets
+│   ├── js/                 # Client-side logic
+│   ├── pages/              # HTML pages
+│   ├── assets/             # Images & static assets
+│   └── index.html
 │
 └── README.md
 ```
 
 ---
 
+## 📡 REST API Reference
 
+### Authentication
 
-# 📡 REST API
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/auth/register` | Register a new user |
+| `POST` | `/auth/login` | Authenticate & receive JWT |
 
-## Authentication
+### Leave Management
 
-| Method | Endpoint |
-|----------|----------------|
-| POST | /auth/register |
-| POST | /auth/login |
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/leaves` | Fetch leave requests |
+| `POST` | `/leaves` | Submit a new leave request |
+| `PATCH` | `/leaves/:id` | Update status (approve/reject) |
 
----
+### Users
 
-## Leave Routes
-
-| Method | Endpoint |
-|----------|----------------|
-| GET | /leaves |
-| POST | /leaves |
-| PATCH | /leaves/:id |
-
----
-
-## User Routes
-
-| Method | Endpoint |
-|----------|----------------|
-| GET | /auth/users |
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/auth/users` | Fetch all registered users |
 
 ---
 
-# ⚙ Environment Variables
+## ⚙️ Environment Variables
 
-Create a `.env` file inside the backend folder.
+Create a `.env` file inside the `backend/` directory:
 
 ```env
 PORT=5000
-
-MONGO_URI=Your_MongoDB_URI
-
-JWT_SECRET=Your_JWT_Secret
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret_key
 ```
 
 ---
 
-# 💻 Run Locally
+## 💻 Getting Started
 
-## Clone Repository
+### Clone the repository
 
 ```bash
 git clone https://github.com/Pradyum-02/LeaveFlow.git
+cd LeaveFlow
 ```
 
----
-
-## Backend
+### Backend setup
 
 ```bash
 cd backend
-
 npm install
-
 npm run dev
 ```
 
----
+### Frontend setup
 
-## Frontend
-
-Simply open
-
-```
-frontend/index.html
-```
-
-or use
-
-```
-Live Server
-```
-
-inside VS Code.
+Open `frontend/index.html` directly, or serve it with **Live Server** in VS Code for the best development experience.
 
 ---
 
-# 🚀 Deployment
+## 🚀 Deployment
 
 | Service | Platform |
-|----------|-----------|
+|---|---|
 | Frontend | Vercel |
 | Backend | Render |
 | Database | MongoDB Atlas |
 
 ---
 
-# 🎯 Learning Outcomes
+## 🎯 Learning Outcomes
 
-Through this project I gained practical experience with:
+Building LeaveFlow provided hands-on experience with:
 
-- MVC Architecture
-- Express.js
-- MongoDB Atlas
-- JWT Authentication
-- REST API Development
-- Role-Based Authorization
-- Password Hashing
-- Backend Deployment
-- Frontend Deployment
-- Git & GitHub Workflow
-- API Testing with Postman
-- Responsive UI Development
+- MVC architecture & clean project structure
+- Express.js REST API development
+- MongoDB Atlas integration
+- JWT-based authentication & role-based authorization
+- Password hashing & security best practices
+- Full-stack deployment (frontend + backend)
+- Git & GitHub collaborative workflow
+- API testing with Postman
+- Responsive, accessible UI design
 
 ---
 
-# 🔮 Future Improvements
+## 🔮 Roadmap
 
-- Email Notifications
-- Leave Balance System
-- Calendar Integration
-- File Upload Support
-- Search & Filters
-- Pagination
-- Analytics Dashboard
-- Dark Mode
-- Mobile Application
-- Docker Deployment
+- [ ] Email notifications for status updates
+- [ ] Leave balance tracking system
+- [ ] Calendar integration
+- [ ] File upload support for leave documents
+- [ ] Search & filter functionality
+- [ ] Pagination for large datasets
+- [ ] Advanced analytics dashboard
+- [ ] Dark mode
+- [ ] Mobile application
+- [ ] Docker-based deployment
 
 ---
 
-# 👨‍💻 Developed By
+## 👨‍💻 Developed By
 
 **Pradyum Meshram**
+Computer Engineering Student · Full Stack Web Developer
 
-Computer Engineering Student
-
-Full Stack Web Developer
+<p>
+<a href="https://github.com/Pradyum-02">
+<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"/>
+</a>
+<a href="https://portfolio-react-two-kappa-81.vercel.app/">
+<img src="https://img.shields.io/badge/Portfolio-2563eb?style=for-the-badge&logo=vercel&logoColor=white"/>
+</a>
+</p>
 
 ---
 
 <div align="center">
 
 ### ⭐ If you found this project useful, consider giving it a star!
-
-</div>
-
----
-
-<div align="center">
 
 <img src="https://capsule-render.vercel.app/api?type=waving&height=130&section=footer&color=0:2563eb,100:06b6d4"/>
 
